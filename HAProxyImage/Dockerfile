@@ -1,6 +1,6 @@
 FROM haproxy:latest
-WORKDIR /etc/haproxy
-ADD haproxy.cfg /etc/haproxy/haproxy.cfg
-VOLUME [ "/haproxy" ]
-CMD [ "bash", "/haproxy-start" ]
+WORKDIR /usr/local/etc/haproxy
+COPY haproxy.cfg .
+CMD [ "haproxy", "-f", "haproxy.cfg" ]
 EXPOSE 80
+EXPOSE 8404
