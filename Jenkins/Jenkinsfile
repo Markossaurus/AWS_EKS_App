@@ -16,6 +16,11 @@ pipeline{
                 echo("Ended pipeline early.")        
             }
         }
+        stage('Run Jenkinsfile') {
+            when {
+                expression { return parameters.Refresh == false }
+            }
+        }
        
         stage("git"){
             steps{
