@@ -14,7 +14,7 @@ pipeline{
             agent {
                 dockerfile{
                     filename 'Dockerfile'
-                    dir '../NginxCostum1'
+                    dir 'NginxCostum1'
                     label 'test'
                 }  
             }
