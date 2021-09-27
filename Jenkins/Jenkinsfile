@@ -32,6 +32,9 @@ pipeline{
                   label 'test'
                }  
             }
+            steps{
+                echo "building image"
+            }
        }
     }
 }
