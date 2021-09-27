@@ -1,19 +1,19 @@
-pipeline{
-    agent any
-        stage("git"){
-            steps{
-                echo "cloning repo from Github..."
-                git credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', url: 'git@github.com:Markossaurus/AWS_EKS_App.git'
-                }
-            }
-        stage("build"){
-            agent {
-                dockerfile{
-                    dir 'NginxCostum1'
-                    filename 'Dockerfile'
-                    label 'test'
-                }  
-            }
-        }
-    }
+////pipeline{
+   // agent any
+       // stage("git"){
+         //   steps{
+           //     echo "cloning repo from Github..."
+              //  git credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', url: 'git@github.com:Markossaurus/AWS_EKS_App.git'
+            //    }
+          //  }
+        //stage("build"){
+           // agent {
+               // dockerfile{
+           //         dir 'NginxCostum1'
+         //           filename 'Dockerfile'
+       //             label 'test'
+     //           }  
+   //         }
+ //       }
+//  }
 
