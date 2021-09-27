@@ -1,7 +1,7 @@
 pipeline{
     agent{
-        label "master"
-    }
+        label "any"
+    
     stages{
         stage("git"){
             steps{
@@ -17,9 +17,7 @@ pipeline{
                     label 'test'
                 }  
             }
-            steps{
-                echo "image built"
-            }
         }
     }
+  }
 }
