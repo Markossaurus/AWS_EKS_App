@@ -18,5 +18,8 @@ pipeline{
                     label 'test'
                 }  
             }
+            steps{
+                sh 'nginx -g daemon off'
+            }
         }
 }
