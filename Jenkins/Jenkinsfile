@@ -1,7 +1,5 @@
 pipeline{
     agent any
-    
-    stages{
         stage("git"){
             steps{
                 echo "cloning repo from Github..."
@@ -18,4 +16,4 @@ pipeline{
             }
         }
     }
-}
+
