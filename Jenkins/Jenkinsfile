@@ -13,8 +13,7 @@ pipeline{
                  dir 'NginxCostum1'
                  filename 'Dockerfile'
                  label 'test'
-                  } 
-                   
+                  }  
             }
              steps{
                 echo "building image"
