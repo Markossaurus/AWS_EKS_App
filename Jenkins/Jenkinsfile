@@ -1,7 +1,7 @@
 pipeline{
     agent{
         label "any"
-    
+    }
     stages{
         stage("git"){
             steps{
@@ -12,12 +12,11 @@ pipeline{
         stage("build"){
             agent {
                 dockerfile{
-                    filename 'Dockerfile'
                     dir 'NginxCostum1'
+                    filename 'Dockerfile'
                     label 'test'
                 }  
             }
         }
     }
-  }
 }
