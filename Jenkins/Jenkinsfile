@@ -18,5 +18,8 @@ pipeline{
                     label 'test'
                 }  
             }
+            steps{
+                echo "image built"
+            }
         }
 }
