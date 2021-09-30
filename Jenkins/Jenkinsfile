@@ -38,7 +38,7 @@ pipeline{
              
               steps{
                   sh """
-                    docker run --rm test
+                    docker run --rm -d test
                 """
                     }
                 }
