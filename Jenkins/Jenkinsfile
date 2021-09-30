@@ -1,6 +1,11 @@
 pipeline{
     agent any
     stages {
+          stage("checkout"){
+              steps{
+                checkout([$class:'GitSCM', branches:[[name:'**']], extensions:[], userRemoteConfigs: [[credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', name:'origin', refspec:"+refs/pull/*:refs/remotes/origin/pr/*", url:'git@github.com:Markossaurus/AWS_EKS_App.git']]])
+              }
+          }
           stage("build"){
              agent {
                  dockerfile{
