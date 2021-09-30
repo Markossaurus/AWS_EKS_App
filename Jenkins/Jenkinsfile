@@ -30,7 +30,7 @@ pipeline{
              steps{
                 echo "building image"
                 sh """
-                    docker build -t test .
+                    docker build -t test NginxCostum1/.
                 """
              } 
          }
