@@ -7,15 +7,21 @@ pipeline{
               }
           }
           stage("build"){
-             agent {
-                 dockerfile{
-                 dir 'NginxCostum1'
-                 filename 'Dockerfile'
-                  }  
-            }
+             agent { label "linux" }
              steps{
                 echo "building image"
+                sh """
+                    docker build -t test .
+                """
              } 
+         }
+         stage("run"){
+             agent{ label "linux" }
+              steps{
+                  sh """
+                    docker run --rm test
+                """
+              }
          }
     }
 }
