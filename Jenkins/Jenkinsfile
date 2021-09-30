@@ -26,7 +26,7 @@ pipeline{
               }
           }
           stage("build"){
-             agent { label "linux" }
+             
              steps{
                 echo "building image"
                 sh """
@@ -35,7 +35,7 @@ pipeline{
              } 
          }
          stage("run"){
-             agent{ label "linux" }
+             
               steps{
                   sh """
                     docker run --rm test
