@@ -1,24 +1,5 @@
 pipeline{
     agent any
-    parameters {
-        booleanParam(name: 'Refresh',
-                    defaultValue: false,
-                    description: 'Read Jenkisfile and exit.')
-        }
-    
-    stages {
-        stage("Read Jenkisfile") {
-            when {
-                expression { return params.Refresh == true }
-            }
-            steps {
-                echo("stop")
-            }
-        }
-    stage('Run Jenkinsfile') {
-        when{
-            expression { return params.Refresh == false }
-        }
     stages {
           stage("checkout"){
               steps{
@@ -40,12 +21,12 @@ pipeline{
                   sh """
                     docker run --rm -d test
                 """
-                    }
                 }
             }
-        }   
     }
+}   
+
   
-}
+
 
 
