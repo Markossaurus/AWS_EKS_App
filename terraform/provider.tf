@@ -4,6 +4,10 @@ terraform {
         source = "hashicorp/aws"
         version = "~> 3.0"
     }
+    kubernetes = {
+        source = "hashicorp/kubernetes"
+        version = "2.5.0"
+    }
   }
   
 }
@@ -15,15 +19,13 @@ provider "aws"{
     secret_key = var.AWS_SECRET
 }
 
+
+provider "kubernetes" {
+  # Configuration options
+}
+
 data "aws_availability_zones" "available" {
   state = "available"
 }
 
 
-/* data "aws_regions" "current" {
-
-  filter {
-    name   = "region-name"
-    values = ["eu-central-1", "eu-west-1", "eu-west-2"]
-  }
-} */

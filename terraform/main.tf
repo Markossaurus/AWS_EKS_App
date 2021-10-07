@@ -28,6 +28,10 @@ resource "aws_eks_node_group" "haprox" {
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = module.vpc.public_subnets
   instance_types  = ["t3.micro"]
+  
+  remote_access {
+      ec2_ssh_key = "terraform-sshkey-pc"
+  }
 
   scaling_config {
     desired_size = 1
@@ -44,3 +48,4 @@ resource "aws_eks_node_group" "haprox" {
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
   ]
 }
+
