@@ -8,3 +8,8 @@ variable AWS_SECRET {
   description = "AWS secret key from tfvars"
 }
 
+variable cluster_name {
+  type        = string
+  default     = "haproxy"
+  description = "name of cluster"
+}

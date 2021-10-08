@@ -3,7 +3,7 @@ terraform {
     aws = {
         source = "hashicorp/aws"
         version = "~> 3.0"
-
+    }
     kubernetes = {
         source = "hashicorp/kubernetes"
         version = "2.5.0"
@@ -14,8 +14,8 @@ terraform {
         version = "2.3.0"
         }
     }
-  }
 }
+
 
 
 provider "aws"{
@@ -37,7 +37,7 @@ provider "helm" {
       cluster_ca_certificate = base64decode(aws_eks_cluster.haproxy.certificate_authority[0].data)
       token                  = aws_eks_cluster_auth.haproxy.token
        }
-    }
+}
 
 
 

@@ -49,6 +49,18 @@ resource "aws_eks_node_group" "haprox" {
   ]
 }
 
+resource "local_file" "kubeconfig" {
+    sensitive_content    = templatefile("${path.module}/kubeconfig.tpl", {
+    cluster_name = aws_eks_cluster.haproxy.id,
+    cluster-ca    = aws_eks_cluster.haproxy.certificate_authority[0].data,
+    endpoint     = aws_eks_cluster.haproxy.endpoint,
+    })
+  filename          = "~/.kube/config-${aws_eks_cluster.haproxy.id}"
+  depends_on =[
+      aws_eks_node_group.haprox,
+      aws_eks_cluster.haproxy,
+  ]
+}
 
 
 
