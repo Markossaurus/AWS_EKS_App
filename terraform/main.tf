@@ -1,5 +1,5 @@
 resource "aws_eks_cluster" "haproxy" {
-  name     = "haproxy"
+  name     = var.cluster_name
   role_arn = aws_iam_role.eks-cluster.arn
 
   vpc_config {
@@ -10,8 +10,10 @@ resource "aws_eks_cluster" "haproxy" {
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.AmazonEKSServicePolicy
   ]
 }
+
 
 output "endpoint" {
   value = aws_eks_cluster.haproxy.endpoint
@@ -23,7 +25,7 @@ output "kubeconfig-certificate-authority-data" {
 
 
 resource "aws_eks_node_group" "haprox" {
-  cluster_name    = aws_eks_cluster.haproxy.name
+  cluster_name    = var.cluster_name
   node_group_name = "haprox"
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = module.vpc.public_subnets
@@ -40,22 +42,24 @@ resource "aws_eks_node_group" "haprox" {
   }
 
 
+
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
+    aws_eks_cluster.haproxy,
   ]
 }
 
-resource "local_file" "kubeconfig" {
+/* resource "local_file" "kubeconfig" {
     sensitive_content    = templatefile("${path.module}/kubeconfig.tpl", {
     cluster_name = aws_eks_cluster.haproxy.id,
     cluster-ca    = aws_eks_cluster.haproxy.certificate_authority[0].data,
     endpoint     = aws_eks_cluster.haproxy.endpoint,
     })
-  filename          = "~/.kube/config-${aws_eks_cluster.haproxy.id}"
+  filename          = "/kubeconfig-${var.cluster_name}"
   depends_on =[
       aws_eks_node_group.haprox,
       aws_eks_cluster.haproxy,
@@ -64,3 +68,4 @@ resource "local_file" "kubeconfig" {
 
 
 
+ */
