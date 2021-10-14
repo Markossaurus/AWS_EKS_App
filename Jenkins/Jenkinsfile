@@ -6,25 +6,28 @@ pipeline{
                 checkout([$class:'GitSCM', branches:[[name:'**']], extensions:[], userRemoteConfigs: [[credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', name:'origin', refspec:"+refs/pull/*:refs/remotes/origin/pr/*", url:'git@github.com:Markossaurus/AWS_EKS_App.git']]])
               }
           }
-          stage("build"){
+          stage("deploy eks cluster){
              
              steps{
-                echo "building image"
-                sh """
-                    docker build -t test NginxCostum1/.
-                """
+                echo "deploying cluster"
+                dir("terraform") {
+                    sh "terraform apply"
+                }
              } 
          }
-         stage("run"){
-             
+         stage("create kubectl"){
               steps{
-                  sh """
-                    docker run --rm -d test
-                """
+                echo "creating kubectl"
+                sh "aws eks --region eu-central-1 update-kubeconfig --name haproxy"
                 }
             }
+         
+         
+         
+        
     }
 }   
+
 
   
 

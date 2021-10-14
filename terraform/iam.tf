@@ -13,7 +13,7 @@ resource "aws_iam_role" "eks-cluster" {
       "Action": "sts:AssumeRole"
     }
   ]
-}
+}ff
 POLICY
 }
 
