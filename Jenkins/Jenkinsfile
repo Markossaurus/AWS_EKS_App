@@ -6,7 +6,27 @@ pipeline{
                 checkout([$class:'GitSCM', branches:[[name:'**']], extensions:[], userRemoteConfigs: [[credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', name:'origin', refspec:"+refs/pull/*:refs/remotes/origin/pr/*", url:'git@github.com:Markossaurus/AWS_EKS_App.git']]])
               }
           }
-          stage("deploy eks cluster){
+          stage("build images"){
+             
+             steps{
+                echo "building webserver1 image"
+                sh """
+                    docker build -t webserver1 NginxCostum1/.
+                """
+                
+                echo "building webserver2 images"
+                sh """
+                    docker build -t webserver2 NginxCostum2/.
+                """
+
+                echo "building haproxy image"
+                sh """
+                    docker build -t haproxy HAProxyImage/.
+                """
+             } 
+         }
+
+          stage("deploy eks cluster"){
              
              steps{
                 echo "deploying cluster"
@@ -21,13 +41,10 @@ pipeline{
                 sh "aws eks --region eu-central-1 update-kubeconfig --name haproxy"
                 }
             }
-         
-         
-         
-        
     }
-}   
-
+         
+}
+ 
 
   
 
