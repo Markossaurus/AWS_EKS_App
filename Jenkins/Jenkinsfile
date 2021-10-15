@@ -11,27 +11,47 @@ pipeline{
              steps{
                 echo "building webserver1 image"
                 sh """
-                    docker build -t webserver1 NginxCostum1/.
+                    docker build -t webserver1:latest NginxCostum1/.
                 """
-                
+
                 echo "building webserver2 images"
                 sh """
-                    docker build -t webserver2 NginxCostum2/.
+                    docker build -t webserver2:latest NginxCostum2/.
                 """
 
                 echo "building haproxy image"
                 sh """
-                    docker build -t haproxy HAProxyImage/.
+                    docker build -t haproxy:latest HAProxyImage/.
                 """
              } 
          }
 
-          stage("deploy eks cluster"){
+         stage("push images"){
+             input{
+                 message "Insert dockerhub username: "
+                 parameters {
+                    string(name: 'DHUSER', defaultValue: '', description: 'repo name')
+                }
+             }
+
+             steps{
+                 echo "pushing image webserver 1 to dockherhub"
+                 sh 'docker push ${DHUSER}/webserver1:latest '
+
+                 echo "pushing image webserver 2 to dockherhub"
+                 sh 'docker push ${DHUSER}/webserver2:latest '
+
+                 echo "pushing image haproxy to dockherhub"
+                 sh "sh docker push ${DHUSER}/haproxy:latest"
+             }
+         }
+
+         stage("deploy eks cluster"){
              
              steps{
                 echo "deploying cluster"
                 dir("terraform") {
-                    sh "terraform apply"
+                    sh "terraform plan"
                 }
              } 
          }
