@@ -6,7 +6,7 @@ pipeline{
                 checkout([$class:'GitSCM', branches:[[name:'**']], extensions:[], userRemoteConfigs: [[credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', name:'origin', refspec:"+refs/pull/*:refs/remotes/origin/pr/*", url:'git@github.com:Markossaurus/AWS_EKS_App.git']]])
               }
           }
-          stage("build images"){
+          stage("build and push images"){
 
              input{
                  message "Insert dockerhub username: "
@@ -30,22 +30,16 @@ pipeline{
                 sh """
                     docker build -t ${DHUSER}/haproxy:latest HAProxyImage/.
                 """
+
+                echo "pushing image webserver 1 to dockherhub"
+                sh 'docker push ${DHUSER}/webserver1:latest '
+
+                echo "pushing image webserver 2 to dockherhub"
+                sh 'docker push ${DHUSER}/webserver2:latest '
+
+                echo "pushing image haproxy to dockherhub"
+                sh "sh docker push ${DHUSER}/haproxy:latest"
              } 
-         }
-
-         stage("push images"){
-
-             steps{
-                 
-                 echo "pushing image webserver 1 to dockherhub"
-                 sh 'docker push ${DHUSER}/webserver1:latest '
-
-                 echo "pushing image webserver 2 to dockherhub"
-                 sh 'docker push ${DHUSER}/webserver2:latest '
-
-                 echo "pushing image haproxy to dockherhub"
-                 sh "sh docker push ${DHUSER}/haproxy:latest"
-             }
          }
     }
 }
