@@ -45,7 +45,9 @@ pipeline{
                  sh "sh docker push ${DHUSER}/haproxy:latest"
              }
          }
-
+    }
+}
+/* 
          stage("deploy eks cluster"){
              
              steps{
@@ -64,7 +66,7 @@ pipeline{
     }
          
 }
- 
+  */
 
   
 
