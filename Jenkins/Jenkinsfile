@@ -31,18 +31,18 @@ pipeline{
                     docker build -t ${DHUSER}/haproxy:latest HAProxyImage/.
                 """
 
-                echo "pushing image webserver 1 to dockherhub"
-                sh 'docker push ${DHUSER}/webserver1:latest '
 
-                echo "pushing image webserver 2 to dockherhub"
-                sh 'docker push ${DHUSER}/webserver2:latest '
-
-                echo "pushing image haproxy to dockherhub"
-                sh "sh docker push ${DHUSER}/haproxy:latest"
+                withDockerRegistry([ credentialsId: "dockerhub_creds", url: "" ]) {
+                sh 'docker push ${DHUSER}/webserver1:latest'
+                sh 'docker push ${DHUSER}/webserver2:latest'
+                sh 'docker push ${DHUSER}/haproxy:latest'
              } 
          }
+
+       }
     }
 }
+
 /* 
          stage("deploy eks cluster"){
              
