@@ -44,9 +44,8 @@ pipeline{
              steps{
                 echo "deploying cluster"
                 dir("terraform") {
-                    sh "terraform init"
-                    sh "terraform -var-file=~/Desktop/AWS_EKS_APP/terraform/terraform.tfvars"
-                    sh "terraform apply"
+                    sh 'terraform init'
+                    sh 'terraform apply -var-file="~/Desktop/AWS_EKS_APP/terraform/terraform.tfvars"'
                 }
              } 
          }
