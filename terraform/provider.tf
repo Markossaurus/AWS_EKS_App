@@ -25,22 +25,13 @@ provider "aws"{
     secret_key = var.AWS_SECRET
 }
 
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 provider "kubernetes" {
   host                   = aws_eks_cluster.haproxy.endpoint
   cluster_ca_certificate = base64decode(aws_eks_cluster.haproxy.certificate_authority[0].data)
   token                  = aws_eks_cluster_auth.haproxy.token
-}
-
-provider "helm" {
-    kubernetes {
-      host                   = aws_eks_cluster.haproxy.endpoint
-      cluster_ca_certificate = base64decode(aws_eks_cluster.haproxy.certificate_authority[0].data)
-      token                  = aws_eks_cluster_auth.haproxy.token
-       }
-}
-
-
-
-data "aws_availability_zones" "available" {
-  state = "available"
 }

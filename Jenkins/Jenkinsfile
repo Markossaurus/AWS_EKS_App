@@ -6,63 +6,61 @@ pipeline{
                 checkout([$class:'GitSCM', branches:[[name:'**']], extensions:[], userRemoteConfigs: [[credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', name:'origin', refspec:"+refs/pull/*:refs/remotes/origin/pr/*", url:'git@github.com:Markossaurus/AWS_EKS_App.git']]])
               }
           }
-          stage("build and push images"){
-
-             input{
-                 message "Insert dockerhub username: "
-                 parameters {
-                    string(name: 'DHUSER', defaultValue: '', description: 'repo name')
-                  }
-             }
-             
+          stage("build images"){
              steps{
                 echo "building webserver1 image"
                 sh """
-                    docker build -t ${DHUSER}/webserver1:latest NginxCostum1/.
+                    docker build -t localhost:5000/webserver1:latest NginxCostum1/.
                 """
 
                 echo "building webserver2 images"
                 sh """
-                    docker build -t ${DHUSER}/webserver2:latest NginxCostum2/.
+                    docker build -t localhost:5000/webserver2:latest NginxCostum2/.
                 """
 
                 echo "building haproxy image"
                 sh """
-                    docker build -t ${DHUSER}/haproxy:latest HAProxyImage/.
+                    docker build -t localhost:5000/haproxy:latest HAProxyImage/.
                 """
+             }
+          }
 
-
-                withDockerRegistry([ credentialsId: "dockerhub_creds", url: "" ]) {
-                sh 'docker push ${DHUSER}/webserver1:latest'
-                sh 'docker push ${DHUSER}/webserver2:latest'
-                sh 'docker push ${DHUSER}/haproxy:latest'
-             } 
-         }
-
-       }
+          stage("start local registry"){
+             steps{
+                sh 'docker run -d -p 5000:5000 --restart always --name registry registry:2'
+             }
+          }
+          
+          stage("push images to local registry"){
+              steps{
+                sh 'docker push localhost:5000/webserver1:latest'
+                sh 'docker push localhost:5000/webserver2:latest'
+                sh 'docker push localhost:5000/haproxy:latest'
+              }
+           } 
     }
-}
 
-/* 
-         stage("deploy eks cluster"){
+
+
+         stage("deploy eks cluster and app"){
              
              steps{
                 echo "deploying cluster"
                 dir("terraform") {
-                    sh "terraform plan"
+                    sh "terraform apply"
                 }
              } 
          }
-         stage("create kubectl"){
+         stage("create kubectl config"){
               steps{
-                echo "creating kubectl"
+                echo "creating kubectl config"
                 sh "aws eks --region eu-central-1 update-kubeconfig --name haproxy"
                 }
             }
-    }
-         
 }
-  */
+         
+ 
+  
 
   
 
