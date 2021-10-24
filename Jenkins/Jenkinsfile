@@ -40,12 +40,19 @@ pipeline{
            } 
 
          stage("deploy eks cluster and app"){
+
+             input {
+                    message 'insert tfvars location full path: '
+                    parameters {
+                         string 'TFVARS_LOC'
+                        }
+                }
              
              steps{
                 echo "deploying cluster"
                 dir("terraform") {
                     sh 'terraform init'
-                    sh 'terraform apply -var-file="~/Desktop/AWS_EKS_APP/terraform/terraform.tfvars"'
+                    sh 'terraform apply -var-file="{$TFVARS_LOC}"'
                 }
              } 
          }
