@@ -52,7 +52,7 @@ pipeline{
                 echo "deploying cluster"
                 dir("terraform") {
                     sh 'terraform init'
-                    sh 'terraform apply -var-file="$TFVARS_LOC"'
+                    sh 'terraform apply -var-file="$TFVARS_LOC" -auto-approve'
                 }
              } 
          }
