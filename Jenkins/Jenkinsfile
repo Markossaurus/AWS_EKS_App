@@ -38,9 +38,6 @@ pipeline{
                 sh 'docker push localhost:5000/haproxy:latest'
               }
            } 
-    }
-
-
 
          stage("deploy eks cluster and app"){
              
@@ -57,6 +54,7 @@ pipeline{
                 sh "aws eks --region eu-central-1 update-kubeconfig --name haproxy"
                 }
             }
+    }
 }
          
  
