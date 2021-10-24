@@ -2,7 +2,7 @@ pipeline{
     agent any
     environment{
         AWS_DEFAULT_REGION = 'eu-central-1'
-        MY_AWS_CREDS = credentials(aws-creds)
+        MY_AWS_CREDS = credentials('aws-creds')
         
     }
     stages {
