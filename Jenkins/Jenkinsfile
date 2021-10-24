@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    environment{
+        AWS_DEFAULT_REGION = 'eu-central-1'
+    }
     stages {
           stage("checkout"){
               steps{
@@ -56,6 +59,7 @@ pipeline{
                 }
              } 
          }
+         //add with credentials step (probably)
           stage("create kubectl config"){
               steps{
                 echo "creating kubectl config"
