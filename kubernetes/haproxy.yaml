@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: haproxy
+spec:
+  containers:
+  - name: nginx
+    image: localhost:5000/haproxy
+    ports:
+    - containerPort: 80
