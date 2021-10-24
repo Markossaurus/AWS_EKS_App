@@ -6,7 +6,7 @@ pipeline{
                 checkout([$class:'GitSCM', branches:[[name:'**']], extensions:[], userRemoteConfigs: [[credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', name:'origin', refspec:"+refs/pull/*:refs/remotes/origin/pr/*", url:'git@github.com:Markossaurus/AWS_EKS_App.git']]])
               }
           }
-          stage("build images"){
+/*           stage("build images"){
              steps{
                 echo "building webserver1 image"
                 sh """
@@ -23,8 +23,8 @@ pipeline{
                     docker build -t localhost:5000/haproxy:latest HAProxyImage/.
                 """
              }
-          }
-
+          } */
+/* 
           stage("start local registry"){
              steps{
                 sh 'docker run -d -p 5000:5000 --restart always --name registry registry:2'
@@ -37,7 +37,7 @@ pipeline{
                 sh 'docker push localhost:5000/webserver2:latest'
                 sh 'docker push localhost:5000/haproxy:latest'
               }
-           } 
+           }  */
 
          stage("deploy eks cluster and app"){
 
@@ -56,12 +56,12 @@ pipeline{
                 }
              } 
          }
-         stage("create kubectl config"){
+/*          stage("create kubectl config"){
               steps{
                 echo "creating kubectl config"
                 sh "aws eks --region eu-central-1 update-kubeconfig --name haproxy"
                 }
-            }
+            } */
     }
 }
          
