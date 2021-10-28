@@ -61,11 +61,13 @@ pipeline{
                 }
              } 
          }
-         //add with credentials step (probably)
+         
           stage("create kubectl config"){
               steps{
                 echo "creating kubectl config"
                 sh "aws eks --region eu-central-1 update-kubeconfig --name haproxy"
+                echo "granting permissions to all users for cluster mgmt porpuses(insecure but for personal project is ok)"
+                sh "chmod 777 /var/lib/jenkins/.kube/config"
                 }
             } 
           stage("deploy app"){
