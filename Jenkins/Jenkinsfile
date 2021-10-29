@@ -16,7 +16,7 @@ pipeline{
              steps{
 
                 input {
-                    message 'insert tfvars location full path: '
+                    message: 'insert tfvars location full path:'
                     parameters {
                          string 'TFVARS_LOC'
                          string 'HUB_NAME'
@@ -26,10 +26,12 @@ pipeline{
            }
 
            stage("output vars"){
+               steps{
 
                 echo "$TFVARS_LOC, $HUB_NAME"
 
                 echo "building webserver1 image"
+               }
            }
 
 /*              sh """
