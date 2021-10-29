@@ -13,16 +13,13 @@ pipeline{
               }
           }
            stage("build images and push to registry"){
-             steps{
-
                 input {
-                    message: 'insert tfvars location full path:'
+                    message 'insert tfvars location full path:'
                     parameters {
                          string 'TFVARS_LOC'
                          string 'HUB_NAME'
                         }
                 }
-             }
            }
 
            stage("output vars"){
