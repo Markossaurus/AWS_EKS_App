@@ -45,7 +45,8 @@ pipeline{
           
                 }
            }
-/*          stage("deploy eks cluster"){
+
+          stage("deploy eks cluster"){
              steps{
                 echo "deploying cluster"
                 dir("terraform") {
@@ -70,7 +71,7 @@ pipeline{
                 sh 'kubectl apply -f kubernetes/webserver2.yaml'
                 sh 'kubectl apply -f kubernetes/haproxy.yaml'
               }
-          }   */
+          }   
    
             
     }
