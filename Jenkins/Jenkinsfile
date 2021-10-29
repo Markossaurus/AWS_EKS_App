@@ -1,14 +1,13 @@
 pipeline{
     agent any
     parameters{
-        string(name: 'myparam',defaultValue: '', description: 'test')
+        string 'myparam'
     }
     environment{
         AWS_DEFAULT_REGION = 'eu-central-1'
         MY_AWS_CREDS = credentials('aws-creds')
         DOCKERHUB_CREDENTIALS=credentials('dockerhub_creds')
-        TEST = "${myparam}"
-        
+        TEST = "$myparam"
     }
     stages {
           stage("checkout"){
@@ -20,7 +19,7 @@ pipeline{
           
                steps{
 
-                echo "$TEST, $help"
+                echo "$TEST"
 
                }
            }
