@@ -1,13 +1,15 @@
 pipeline{
     agent any
     parameters{
-        string 'myparam'
+        string name: 'TFVARS_LOC', description: 'insert location of tfvars file'
+        string name: 'HUB_NAME', description: 'insert docker hub repo name'
     }
     environment{
         AWS_DEFAULT_REGION = 'eu-central-1'
         MY_AWS_CREDS = credentials('aws-creds')
         DOCKERHUB_CREDENTIALS=credentials('dockerhub_creds')
-        TEST = "$myparam"
+        TFVARS_LOC = "$TFVARS_LOC"
+        HUB_NAME = "$HUB_NAME"
     }
     stages {
           stage("checkout"){
@@ -19,36 +21,31 @@ pipeline{
           
                steps{
 
-                echo "$TEST"
-
-               }
-           }
-
-/*              sh """
-                    docker build -t marximus/webserver1:latest NginxCostum1/.
+                sh """
+                    docker build -t $HUB_NAME/webserver1:latest NginxCostum1/.
                 """
 
                 echo "building webserver2 images"
                 sh """
-                    docker build -t marximus/webserver2:latest NginxCostum2/.
+                    docker build -t $HUB_NAME/webserver2:latest NginxCostum2/.
                 """
 
                 echo "building haproxy image"
                 sh """
-                    docker build -t marximus/haproxy:latest HAProxyImage/.
+                    docker build -t $HUB_NAME/haproxy:latest HAProxyImage/.
                 """
 
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 
-                sh 'docker push marximus/webserver1:latest'
+                sh 'docker push $HUB_NAME/webserver1:latest'
 
-                sh 'docker push marximus/webserver2:latest'
+                sh 'docker push $HUB_NAME/webserver2:latest'
 
-                sh 'docker push marximus/haproxy:latest'
+                sh 'docker push $HUB_NAME/haproxy:latest'
           
                 }
            }
-         stage("deploy eks cluster"){
+/*          stage("deploy eks cluster"){
              steps{
                 echo "deploying cluster"
                 dir("terraform") {
@@ -73,8 +70,8 @@ pipeline{
                 sh 'kubectl apply -f kubernetes/webserver2.yaml'
                 sh 'kubectl apply -f kubernetes/haproxy.yaml'
               }
-          }  
-   */
+          }   */
+   
             
     }
 } 
