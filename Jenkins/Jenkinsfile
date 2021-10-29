@@ -18,8 +18,8 @@ pipeline{
               input {
                 message 'insert tfvars file location and docker hub name'
                 parameters {
-                    [name: 'TFVAR_LOC']
-                    [name: 'HUB_NAME']
+                    string 'TFVAR_LOC'
+                    string 'HUB_NAME'
                         }
                     }
                 
