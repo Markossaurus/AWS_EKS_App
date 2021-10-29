@@ -20,6 +20,9 @@ pipeline{
                          string 'HUB_NAME'
                         }
                 }
+                steps{
+                    echo "thanks"
+                }
            }
 
            stage("output vars"){
@@ -27,7 +30,6 @@ pipeline{
 
                 echo "$TFVARS_LOC, $HUB_NAME"
 
-                echo "building webserver1 image"
                }
            }
 
