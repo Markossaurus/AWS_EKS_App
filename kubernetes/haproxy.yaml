@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
   - name: nginx
-    image: localhost:5000/haproxy
+    image: marximus/haproxy
     ports:
     - containerPort: 80

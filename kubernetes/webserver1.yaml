@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
   - name: nginx
-    image: localhost:5000/webserver1
+    image: marximus/nginx
     ports:
     - containerPort: 80

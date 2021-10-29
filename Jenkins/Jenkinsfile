@@ -3,6 +3,7 @@ pipeline{
     environment{
         AWS_DEFAULT_REGION = 'eu-central-1'
         MY_AWS_CREDS = credentials('aws-creds')
+        DOCKERHUB_CREDENTIALS=credentials('dockerhub_creds')
         
     }
     stages {
@@ -11,48 +12,51 @@ pipeline{
                 checkout([$class:'GitSCM', branches:[[name:'**']], extensions:[], userRemoteConfigs: [[credentialsId: 'edd5b572-22c2-43c1-a50b-991127524391', name:'origin', refspec:"+refs/pull/*:refs/remotes/origin/pr/*", url:'git@github.com:Markossaurus/AWS_EKS_App.git']]])
               }
           }
-           stage("build images"){
+           stage("build images and push to registry"){
              steps{
+
+                input {
+                    message 'insert tfvars location full path: '
+                    parameters {
+                         string 'TFVARS_LOC'
+                         string 'HUB_NAME'
+                        }
+                }
+             }
+           }
+
+           stage("output vars"){
+
+                echo "$TFVARS_LOC, $HUB_NAME"
+
                 echo "building webserver1 image"
-                sh """
-                    docker build -t localhost:5000/webserver1:latest NginxCostum1/.
+           }
+
+/*              sh """
+                    docker build -t marximus/webserver1:latest NginxCostum1/.
                 """
 
                 echo "building webserver2 images"
                 sh """
-                    docker build -t localhost:5000/webserver2:latest NginxCostum2/.
+                    docker build -t marximus/webserver2:latest NginxCostum2/.
                 """
 
                 echo "building haproxy image"
                 sh """
-                    docker build -t localhost:5000/haproxy:latest HAProxyImage/.
+                    docker build -t marximus/haproxy:latest HAProxyImage/.
                 """
-             }
-          } 
- 
-          stage("start local registry"){
-             steps{
-                sh 'docker run -d -p 5000:5000 --restart always --name registry registry:2'
-             }
-          }
+
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+                sh 'docker push marximus/webserver1:latest'
+
+                sh 'docker push marximus/webserver2:latest'
+
+                sh 'docker push marximus/haproxy:latest'
           
-          stage("push images to local registry"){
-              steps{
-                sh 'docker push localhost:5000/webserver1:latest'
-                sh 'docker push localhost:5000/webserver2:latest'
-                sh 'docker push localhost:5000/haproxy:latest'
-              }
-           }  
-
-         stage("deploy eks cluster"){
-
-             input {
-                    message 'insert tfvars location full path: '
-                    parameters {
-                         string 'TFVARS_LOC'
-                        }
                 }
-             
+           }
+         stage("deploy eks cluster"){
              steps{
                 echo "deploying cluster"
                 dir("terraform") {
@@ -78,15 +82,8 @@ pipeline{
                 sh 'kubectl apply -f kubernetes/haproxy.yaml'
               }
           }  
-
-          
+   */
+            
     }
-}
+} 
          
- 
-  
-
-  
-
-
-
