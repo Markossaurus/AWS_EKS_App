@@ -24,7 +24,7 @@ pipeline{
                     }
                 
                 steps{
-                    echo "thanks"
+                    echo "thanks, $TFVARS_LOC, $HUB_NAME"
                 }
            }
            
