@@ -1,5 +1,4 @@
-def TFVARS_LOC
-def HUB_NAME
+
 
 pipeline{
     agent any
@@ -16,17 +15,19 @@ pipeline{
               }
           }
            stage("build images and push to registry"){
-                input {
-                    message 'insert tfvars location full path:'
-                    parameters {
-                         string 'TFVARS_LOC'
-                         string 'HUB_NAME'
+              input {
+                message 'insert tfvars file location and docker hub name'
+                parameters {
+                    [name: 'TFVAR_LOC']
+                    [name: 'HUB_NAME']
                         }
-                }
+                    }
+                
                 steps{
                     echo "thanks"
                 }
            }
+           
 
            stage("output vars"){
                steps{
