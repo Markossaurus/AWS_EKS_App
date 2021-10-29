@@ -70,6 +70,9 @@ pipeline{
                 sh 'kubectl apply -f kubernetes/webserver1.yaml'
                 sh 'kubectl apply -f kubernetes/webserver2.yaml'
                 sh 'kubectl apply -f kubernetes/haproxy.yaml'
+                sh 'kubectl apply -f kubernetes/serv1.yaml'
+                sh 'kubectl apply -f kubernetes/serv2.yaml'
+                sh 'kubectl apply -f kubernetes/haserv.yaml'
               }
           }   
    
