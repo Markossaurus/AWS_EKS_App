@@ -17,14 +17,12 @@ pipeline{
               }
           }
            stage("build images and push to registry"){
-
-           stage("output vars"){
+          
                steps{
 
                 echo "$TEST, $help"
 
                }
-           }
            }
 
 /*              sh """
