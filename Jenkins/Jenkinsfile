@@ -6,6 +6,7 @@ pipeline{
         AWS_DEFAULT_REGION = 'eu-central-1'
         MY_AWS_CREDS = credentials('aws-creds')
         DOCKERHUB_CREDENTIALS=credentials('dockerhub_creds')
+        TEST = 'testing'
         
     }
     stages {
@@ -18,13 +19,12 @@ pipeline{
               input {
                 message 'insert tfvars file location and docker hub name'
                 parameters {
-                    string 'TFVARS_LOC'
-                    string 'HUB_NAME'
+                    [defaultValue: '$TEST', name: 'help']
                         }
                     }
                 
                 steps{
-                    echo "thanks, $TFVARS_LOC, $HUB_NAME"
+                    echo "thanks, $TEST, $help"
                 }
            }
            
@@ -32,7 +32,7 @@ pipeline{
            stage("output vars"){
                steps{
 
-                echo "$TFVARS_LOC, $HUB_NAME"
+                echo "$TEST, $help"
 
                }
            }
