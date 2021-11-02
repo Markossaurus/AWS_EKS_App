@@ -65,6 +65,7 @@ pipeline{
                 sh 'kubectl apply -f kubernetes/webserver2.yaml'
                 sh 'kubectl apply -f kubernetes/serv1.yaml'
                 sh 'kubectl apply -f kubernetes/serv2.yaml'
+                sh 'kubectl apply -f haproxy-ingress.yaml'
               }
           }   
    
