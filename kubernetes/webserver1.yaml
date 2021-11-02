@@ -10,4 +10,3 @@ spec:
     image: marximus/webserver1
     ports:
     - containerPort: 80
-    - targetPort : 80
