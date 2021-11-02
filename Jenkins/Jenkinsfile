@@ -30,18 +30,12 @@ pipeline{
                     docker build -t $HUB_NAME/webserver2:latest NginxCostum2/.
                 """
 
-                echo "building haproxy image"
-                sh """
-                    docker build -t $HUB_NAME/haproxy:latest HAProxyImage/.
-                """
-
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 
                 sh 'docker push $HUB_NAME/webserver1:latest'
 
                 sh 'docker push $HUB_NAME/webserver2:latest'
 
-                sh 'docker push $HUB_NAME/haproxy:latest'
           
                 }
            }
@@ -69,10 +63,8 @@ pipeline{
                 echo "deploying app"
                 sh 'kubectl apply -f kubernetes/webserver1.yaml'
                 sh 'kubectl apply -f kubernetes/webserver2.yaml'
-                sh 'kubectl apply -f kubernetes/haproxy.yaml'
                 sh 'kubectl apply -f kubernetes/serv1.yaml'
                 sh 'kubectl apply -f kubernetes/serv2.yaml'
-                sh 'kubectl apply -f kubernetes/haserv.yaml'
               }
           }   
    
