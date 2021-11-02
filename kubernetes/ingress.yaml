@@ -4,8 +4,9 @@ metadata:
     name: app-ingress
     namespace: default
     annotations:
-        kubernetes.io/ingress.class: haproxy
+        haproxy.org/ingress.class: haproxy
 spec:
+    ingressClassName: haproxy
     rules:
     - http:
         paths:
