@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: webservice1
+  name: webservice
 spec:
   selector:
-    server: web1
+    server: web
   ports:
     - protocol: TCP
       port: 80
