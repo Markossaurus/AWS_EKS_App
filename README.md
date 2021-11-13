@@ -37,7 +37,7 @@ If the about step is not executed, terraform destroy will delete some of the res
 
 
 
-# Worksflow
+# Workflow
 
 The pipleline will:
 Build costum docker images for the webservers.
