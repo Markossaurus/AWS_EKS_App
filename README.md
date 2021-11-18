@@ -39,6 +39,9 @@ Jenkins will use the same workspace each time (Jenkins bug) so to make sure the 
 
 You can do that by running this command - sudo rm -rf /var/lib/jenkins/workspace/* (Note: this will delete ALL workspaces, change command according to your needs)
 
+# Clean up
+
+The job builds docker images on your workstation, it will consume a bit of resources, until a clean up job is created I recommend to manually delete the created images, unless you want to keep them for future use your choice.
 
 
 # Workflow
