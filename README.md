@@ -32,8 +32,10 @@ When I say naming I mean setting the Id - there is usually no specific name fiel
 
 # Known bugs (to be fixed)
 
-To destroy the Terraform resources you must first manually delete the the load balancer from the AWS, that's because it is not created using the Terraform script, it is created when deploying the HAProxy Ingress controller, in the future, will create a second job for smooth, automatic deletion.  
-If the above step is not executed, terraform destroy will delete some of the resources and it may consume additional fees.  
+To destroy the Terraform resources you must first manually delete the the load balancer from the AWS, that's because it is not created using the Terraform code, it is created when deploying the HAProxy Ingress controller, in the future, will create a second job for smooth, automatic deletion.  
+If the above step is not executed, terraform destroy will delete some of the resources and it may consume additional fees (But probably not because it successfuly deletes the EKS and EC2 instances).  
+
+Also, you will need to manually delete a vpc (will also delete a security group automatically), still didn't figure out why though...
 
 Jenkins will use the same workspace each time (Jenkins bug) so to make sure the build is synched with Github, you must delete the workspace and let Jenkins pull from the SCM again.  
 
