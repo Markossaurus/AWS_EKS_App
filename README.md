@@ -37,9 +37,6 @@ If the above step is not executed, terraform destroy will delete some of the res
 
 Also, you will need to manually delete a vpc (will also delete a security group automatically), still didn't figure out why though...
 
- 
-
-You can do that by running this command - sudo rm -rf /var/lib/jenkins/workspace/* (Note: this will delete ALL workspaces, change command according to your needs)
 
 # Clean up
 
