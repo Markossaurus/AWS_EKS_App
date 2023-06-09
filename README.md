@@ -37,7 +37,7 @@ If the above step is not executed, terraform destroy will delete some of the res
 
 Also, you will need to manually delete a vpc (will also delete a security group automatically), still didn't figure out why though...
 
-Jenkins will use the same workspace each time (Jenkins bug) so to make sure the build is synched with Github, you must delete the workspace and let Jenkins pull from the SCM again.  
+ 
 
 You can do that by running this command - sudo rm -rf /var/lib/jenkins/workspace/* (Note: this will delete ALL workspaces, change command according to your needs)
 
